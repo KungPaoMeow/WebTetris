@@ -81,7 +81,7 @@ function newGameState() {
         renderPiece();
     }
     else {
-        renderGrid();
+        //renderGrid();
         moveDown();
     }
 }
@@ -103,6 +103,7 @@ function renderPiece() {
 
 function moveDown() {
     pieceObj.y += 1;
+    renderGrid();
     renderPiece();
 }
 
