@@ -1,8 +1,8 @@
 // Tetris blocks and their colors //
 const SHAPES = [
     [
-        [1, 1, 1, 1],
         [0, 0, 0, 0],
+        [1, 1, 1, 1],
         [0, 0, 0, 0],
         [0, 0, 0, 0]
     ], 
@@ -67,10 +67,12 @@ let grid = generateGrid();
 function genRandomPiece() {
     let ran = Math.floor(Math.random()*7);
     let piece = SHAPES[ran];
+    let shape = piece;
     let color = COLORS[ran+1];
     let x = 3;
     let y = 0;
-    return {piece, x, y, color};        // Returns an object; similar to python dictionary
+    if (ran==0) {y = -1;}
+    return {piece, shape, x, y, color};        // Returns an object; similar to python dictionary
 }
 
 setInterval(newGameState, 750);
@@ -87,7 +89,7 @@ function newGameState() {
 
 
 function renderPiece() {
-    let piece = pieceObj.piece;
+    let piece = pieceObj.shape;
     //console.log(piece);
     for (let i=0; i < piece.length; i++) {      // Row 
         for (let j=0; j < piece[i].length; j++) {       // Column
@@ -118,6 +120,33 @@ function moveRight() {
     renderPiece();
 }
 
+function rotatePiece() {
+    switch(pieceObj.piece) {
+        case(SHAPES[0]):    // long piece, 4x4
+            switch(pieceObj.shape) {
+                case(SHAPES[0]):
+                    pieceObj.shape = [[0, 1, 0, 0], 
+                                    [0, 1, 0, 0], 
+                                    [0, 1, 0, 0], 
+                                    [0, 1, 0, 0]];
+                    renderGrid();
+                    renderPiece();
+                    break;
+                default:
+                    pieceObj.shape = SHAPES[0];
+                    renderGrid();
+                    renderPiece();
+                    break;
+            }
+            break;
+        case(SHAPES[6]):    // square, do nothing
+            break;
+        default:            // all 3x3 shapes, rotate around center
+
+            break;
+    }
+}
+
 
 function generateGrid() {
     let grid = [];
@@ -143,17 +172,17 @@ function renderGrid() {
 document.addEventListener("keydown", function(e) {      // e is event instance
     console.log(e);
     switch(e.key) {
-        // case ("s"):
-        //     moveDown();
-        //     break;
-        case ("ArrowDown"):
+        case("ArrowDown"):
             moveDown();
             break;
-        case ("ArrowLeft"):
+        case("ArrowLeft"):
             moveLeft();
             break;
-        case ("ArrowRight"):
+        case("ArrowRight"):
             moveRight();
+            break;
+        case("ArrowUp"):
+            rotatePiece();
             break;
     }
 })
