@@ -73,7 +73,6 @@ function genRandomPiece() {
     return {piece, x, y, color};        // Returns an object; similar to python dictionary
 }
 
-
 setInterval(newGameState, 750);
 function newGameState() {
     if (pieceObj == null) {
@@ -107,6 +106,18 @@ function moveDown() {
     renderPiece();
 }
 
+function moveLeft() {
+    pieceObj.x -= 1;
+    renderGrid();
+    renderPiece();
+}
+
+function moveRight() {
+    pieceObj.x += 1;
+    renderGrid();
+    renderPiece();
+}
+
 
 function generateGrid() {
     let grid = [];
@@ -118,7 +129,6 @@ function generateGrid() {
     }
     return grid;
 }
-
 
 function renderGrid() {
     for (let i = 0; i < grid.length; i++) {
@@ -133,11 +143,17 @@ function renderGrid() {
 document.addEventListener("keydown", function(e) {      // e is event instance
     console.log(e);
     switch(e.key) {
-        case ("s"):
-            moveDown();
-            break;
+        // case ("s"):
+        //     moveDown();
+        //     break;
         case ("ArrowDown"):
             moveDown();
+            break;
+        case ("ArrowLeft"):
+            moveLeft();
+            break;
+        case ("ArrowRight"):
+            moveRight();
             break;
     }
 })
