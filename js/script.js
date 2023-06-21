@@ -133,7 +133,10 @@ function renderGrid() {
 document.addEventListener("keydown", function(e) {      // e is event instance
     console.log(e);
     switch(e.key) {
-        case ("s" || "ArrowDown"):
+        case ("s"):
+            moveDown();
+            break;
+        case ("ArrowDown"):
             moveDown();
             break;
     }
