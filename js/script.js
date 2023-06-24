@@ -72,6 +72,8 @@ function genRandomPiece() {
     let x = 3;
     let y = 0;
     if (ran==0) {y = -1;}
+    //console.log(piece);
+    //console.log(shape);
     return {piece, shape, x, y, color};        // Returns an object; similar to python dictionary
 }
 
@@ -90,7 +92,7 @@ function newGameState() {
 
 function renderPiece() {
     let piece = pieceObj.shape;
-    //console.log(piece);
+    console.log(pieceObj.shape);
     for (let i=0; i < piece.length; i++) {      // Row 
         for (let j=0; j < piece[i].length; j++) {       // Column
             ctx.fillStyle = pieceObj.color;     // Show color
@@ -141,8 +143,24 @@ function rotatePiece() {
             break;
         case(SHAPES[6]):    // square, do nothing
             break;
-        default:            // all 3x3 shapes, rotate around center
+        default:            // all 3x3 shapes, rotate 90 degrees clockwise around center
+            let currTop = [...pieceObj.shape[0]];   // shallow copy, this is fine
 
+            for(let i = 0; i < 3; i++) {        // Left side to Top
+                //console.log(pieceObj.shape[2-i][0]);
+                pieceObj.shape[0][i] = pieceObj.shape[2-i][0];  
+            }
+            for(let i = 0; i < 3; i++) {        // Bottom side to Left
+                //console.log(pieceObj.shape[2][2-i]);
+                pieceObj.shape[2-i][0] = pieceObj.shape[2][2-i];    
+            }
+            for(let i = 0; i < 3; i++) {        // Right side to Bottom
+                //console.log(pieceObj.shape[i][2]);
+                pieceObj.shape[2][2-i] = pieceObj.shape[i][2];
+            }
+            for(let i = 0; i < 3; i++) {        // Top side to Right
+                pieceObj.shape[i][2] = currTop[i];
+            }
             break;
     }
 }
