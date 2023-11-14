@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <!---- insert comment here -->
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
 
-        <title>Tetris!</title>
-    </head>
+    <title>Tetris!</title>
+  </head>
 
-    <body>
-        <h1>TETRIS</h1>
+  <body>
+    <h1>TETRIS</h1>
 
-        <!--Creates the Tetris board-->
-        <div class="game">
-            <canvas id="board" class="tetris-board" height="700" width="350"></canvas>
-            <div class="right-column">
-                <p class="side-text">SCORE: <span id="score">0</span></p>
-                <p class="side-text">LINES: <span id="lines">0</span></p>
-            </div>
-        </div>
-    </body>
+    <!--Creates the Tetris board-->
+    <div class="game">
+      <canvas id="board" class="tetris-board" height="700" width="350"></canvas>
+      <div class="right-column">
+        <p class="side-text">SCORE: <span id="score">0</span></p>
+        <p class="side-text">LINES: <span id="lines">0</span></p>
+      </div>
+    </div>
+  </body>
 
-    <!--Scripts-->
-    <script src="js/script.js"></script>
+  <!--Scripts-->
+  <script src="js/script.js" type="module"></script>
 </html>
