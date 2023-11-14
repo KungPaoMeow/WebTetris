@@ -49,17 +49,14 @@ export function rotatePiece() {
 
       for (let i = 0; i < 3; i++) {
         // Left side to Top
-        //console.log(pieceObj.shape[2-i][0]);
         pieceObj.shape[0][i] = pieceObj.shape[2 - i][0];
       }
       for (let i = 0; i < 3; i++) {
         // Bottom side to Left
-        //console.log(pieceObj.shape[2][2-i]);
         pieceObj.shape[2 - i][0] = pieceObj.shape[2][2 - i];
       }
       for (let i = 0; i < 3; i++) {
         // Right side to Bottom
-        //console.log(pieceObj.shape[i][2]);
         pieceObj.shape[2][2 - i] = pieceObj.shape[i][2];
       }
       for (let i = 0; i < 3; i++) {

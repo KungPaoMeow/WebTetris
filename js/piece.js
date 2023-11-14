@@ -12,8 +12,6 @@ export function genRandomPiece() {
   if (ran == 0) {
     y = -1;
   }
-  //   console.log(piece);
-  //   console.log(shape);
   return { piece, shape, x, y, color }; // Returns an object; similar to python dictionary
 }
 

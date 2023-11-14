@@ -16,7 +16,6 @@ function newGameState() {
     renderPiece();
   } else {
     moveDown(pieceObj);
-    console.log(pieceObj.piece === pieceObj.shape);
   }
 }
 
