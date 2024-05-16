@@ -79,12 +79,32 @@ function genRandomPiece() {
 
 setInterval(newGameState, 750);
 function newGameState() {
+    checkForLines();
     if (pieceObj == null) {
         pieceObj = genRandomPiece();
         renderPiece();
     }
     else {
         moveDown();
+    }
+}
+
+function checkForLines() {
+    // Remove each full grid line and shift down
+    for (let i = 0; i < grid.length; i++) {
+        let line = true;
+        for (let j = 0; j < grid[i].length; j++) {
+            line = line && grid[i][j];
+        }
+        if (line) {
+            grid.splice(i, 1);
+            grid.unshift([0,0,0,0,0,0,0,0,0,0]);
+
+            // Update counters
+            let linesCounter = document.getElementById('lines');
+            let newLines = parseInt(linesCounter.textContent) + 1;
+            linesCounter.textContent = newLines;
+        }
     }
 }
 
@@ -138,6 +158,13 @@ function moveDown() {
                 }
             }
         }
+
+        // Loss
+        if (pieceObj.y <= 0) {
+            alert("Game Over");
+            grid = generateGrid();
+        }
+
         // This will trigger a new piece to fall
         pieceObj = null;
         newGameState();
@@ -159,8 +186,8 @@ function moveRight() {
     renderGrid();
 }
 
-function collision(x, y) {
-    let piece = pieceObj.shape;
+function collision(x, y, rotated) {
+    let piece = rotated || pieceObj.shape;  // Set to rotated if exists
     for (let i=0; i < piece.length; i++) {
         for (let j=0; j < piece[i].length; j++) {
             if (piece[i][j] == 1) {     // Presence of piece is represented by 1
@@ -170,48 +197,52 @@ function collision(x, y) {
                 if (!(p >= 0 && p < COLS && q >= 0 && q < ROWS)) {     // Outside the grid
                     return true;
                 }
+
+                if (grid[q][p] != 0) {     // Collides with a set piece
+                    return true;
+                }
             }
         }
     }
     return false;
 }
 
-function rotatePiece() {
-    switch(pieceObj.piece) {
-        case(PIECES[0]):    // long piece, 4x4
-            switch(pieceObj.shape) {
-                case(PIECES[0]):
-                    pieceObj.shape = [[0, 1, 0, 0], 
-                                    [0, 1, 0, 0], 
-                                    [0, 1, 0, 0], 
-                                    [0, 1, 0, 0]];
-                    renderGrid();
-                    break;
-                default:
-                    pieceObj.shape = PIECES[0];
-                    renderGrid();
-                    break;
-            }
-            break;
-        case(PIECES[6]):    // square, do nothing
-            break;
-        default:            // all 3x3 PIECES, rotate 90 degrees clockwise around center
-            let currTop = [...pieceObj.shape[0]];   // shallow copy, this is fine
+function transpose(matrix) {
+    let transposed = [];
+    for (let i = 0; i < matrix[0].length; i++) {
+        transposed.push([]);
+    }
 
-            for(let i = 0; i < 3; i++) {        // Left side to Top
-                pieceObj.shape[0][2-i] = pieceObj.shape[i][0];  
-            }
-            for(let i = 0; i < 3; i++) {        // Bottom side to Left 
-                pieceObj.shape[i][0] = pieceObj.shape[2][i];    
-            }
-            for(let i = 0; i < 3; i++) {        // Right side to Bottom 
-                pieceObj.shape[2][i] = pieceObj.shape[2-i][2];
-            }
-            for(let i = 0; i < 3; i++) {        // Top side to Right
-                pieceObj.shape[i][2] = currTop[i];
-            }
-            renderGrid();
-            break;
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            transposed[j].push(matrix[i][j]);
+        }
+    }
+    return transposed;
+}
+
+function rotatePiece() {
+    // Transpose then reverse rows to rotate a matrix 90 degrees clockwise
+    let rotated = [];
+
+    // Transpose
+    for (let i = 0; i < pieceObj.shape[0].length; i++) {
+        rotated.push([]);
+    }
+    for (let i = 0; i < pieceObj.shape.length; i++) {
+        for (let j = 0; j < pieceObj.shape[i].length; j++) {
+            rotated[j].push(pieceObj.shape[i][j]);
+        }
+    }
+
+    // Reverse rows
+    for (let i = 0; i < rotated.length; i++) {
+        rotated[i] = rotated[i].reverse();
+    }
+
+    if (!collision(pieceObj.x, pieceObj.y, rotated)) {
+        pieceObj.shape = rotated;
+        renderGrid();
     }
 }
 
