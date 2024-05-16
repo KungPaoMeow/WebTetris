@@ -91,21 +91,41 @@ function newGameState() {
 
 function checkForLines() {
     // Remove each full grid line and shift down
+    let count = 0;
     for (let i = 0; i < grid.length; i++) {
         let line = true;
+
         for (let j = 0; j < grid[i].length; j++) {
             line = line && grid[i][j];
         }
+
         if (line) {
             grid.splice(i, 1);
             grid.unshift([0,0,0,0,0,0,0,0,0,0]);
 
             // Update counters
+            count++;
             let linesCounter = document.getElementById('lines');
             let newLines = parseInt(linesCounter.textContent) + 1;
             linesCounter.textContent = newLines;
         }
     }
+    
+    let scoreCounter = document.getElementById('score');
+    let newScore = parseInt(scoreCounter.textContent);
+    if (count == 1) {
+        newScore += 10;
+    }
+    else if (count == 2) {
+        newScore += 30;
+    }
+    else if (count == 3) {
+        newScore += 50;
+    }
+    else if (count > 3) {
+        newScore += 100;
+    }
+    scoreCounter.textContent = newScore;
 }
 
 function generateGrid() {
